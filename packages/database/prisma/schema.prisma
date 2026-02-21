@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  projects  Project[]
+  contents  Content[]
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contents    Content[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Content {
+  id          String       @id @default(cuid())
+  title       String
+  type        ContentType
+  status      String       @default("draft")
+  projectId   String?
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generations Generation[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Generation {
+  id        String         @id @default(cuid())
+  type      GenerationType
+  prompt    String
+  result    String?
+  metadata  Json?
+  contentId String
+  content   Content        @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+  cost      Float?
+}
+
+enum ContentType {
+  POST
+  STORY
+  REEL
+  VIDEO
+  BLOG
+}
+
+enum GenerationType {
+  TEXT
+  IMAGE
+  VIDEO
+  VOICE
+  AVATAR
+}
