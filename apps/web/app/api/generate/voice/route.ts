@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@contentforge/database";
 import { generateVoice } from "@contentforge/ai-services";
+import { uploadBase64 } from "@/lib/r2";
 import { z } from "zod";
 
 const requestSchema = z.object({
@@ -43,12 +44,24 @@ export async function POST(request: NextRequest) {
 
     const result = await generateVoice(data as import("@contentforge/shared").GenerateVoiceRequest);
 
+    // Upload audio to R2 (avoids storing large base64 in DB)
+    const r2Url = await uploadBase64(result.audioBase64, "mp3", "audio/mpeg");
+    // Fall back to data URI if R2 not configured
+    const storedResult = r2Url ?? `data:audio/mpeg;base64,${result.audioBase64}`;
+    // Return base64 to client regardless (needed for immediate playback)
+    const clientAudio = result.audioBase64;
+
     const generation = await prisma.generation.create({
       data: {
         type: "VOICE",
         prompt: data.text,
-        result: `data:audio/mpeg;base64,${result.audioBase64}`,
-        metadata: { voiceId: data.voiceId, modelId: data.modelId, durationSeconds: result.durationSeconds },
+        result: storedResult,
+        metadata: {
+          voiceId: data.voiceId,
+          modelId: data.modelId,
+          durationSeconds: result.durationSeconds,
+          r2Stored: !!r2Url,
+        },
         contentId: content.id,
         cost: result.cost,
       },
@@ -57,7 +70,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       generationId: generation.id,
       contentId: content.id,
-      audioBase64: result.audioBase64,
+      audioBase64: clientAudio,
       durationSeconds: result.durationSeconds,
       cost: result.cost,
     });

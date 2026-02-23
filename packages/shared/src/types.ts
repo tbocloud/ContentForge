@@ -101,6 +101,31 @@ export interface GenerateVideoResponse {
   cost: number;
 }
 
+// ─── Avatar ──────────────────────────────────────────────────────────────────
+export type AvatarId =
+  | "Anna_public_3_20240108"
+  | "Tyler_public_incasualsuit_20220721"
+  | "Daisy_public_inskirt_20220818"
+  | "Eric_public_pro2_20230608";
+
+export type AvatarDimension = "16:9" | "9:16" | "1:1";
+
+export interface GenerateAvatarRequest {
+  text: string;
+  avatarId: AvatarId;
+  voiceId: string;
+  dimension?: AvatarDimension;
+  projectId?: string;
+}
+
+export interface GenerateAvatarResponse {
+  generationId: string;
+  contentId: string;
+  videoId: string;
+  status: "pending" | "processing" | "completed" | "failed";
+  cost: number;
+}
+
 // ─── Shared ───────────────────────────────────────────────────────────────────
 export interface DashboardStats {
   totalContent: number;

@@ -11,6 +11,7 @@ import {
   ImageIcon,
   Mic,
   Video,
+  User,
   Sparkles,
   PlusCircle,
   ChevronDown,
@@ -36,6 +37,7 @@ const createNav = [
   { href: "/create/image", label: "Image", icon: ImageIcon, active: true },
   { href: "/create/voice", label: "Voice", icon: Mic, active: true },
   { href: "/create/video", label: "Video", icon: Video, active: true },
+  { href: "/create/avatar", label: "Avatar", icon: User, active: true },
 ];
 
 export function Sidebar() {

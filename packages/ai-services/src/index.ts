@@ -14,5 +14,9 @@ export type { VoiceGenerationResult } from "./voice-generation";
 export { generateVideo, pollVideoStatus } from "./video-generation";
 export type { VideoGenerationResult } from "./video-generation";
 
+// Avatar
+export { generateAvatar, pollAvatarStatus } from "./avatar-generation";
+export type { AvatarGenerationResult, AvatarPollResult } from "./avatar-generation";
+
 // OpenAI client
 export { getOpenAIClient } from "./openai-client";

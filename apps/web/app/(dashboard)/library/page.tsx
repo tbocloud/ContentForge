@@ -19,7 +19,7 @@ async function getContent(userId: string, typeFilter?: string) {
       generations: {
         orderBy: { createdAt: "desc" },
         take: 1,
-        select: { id: true, result: true, createdAt: true },
+        select: { id: true, type: true, result: true, createdAt: true },
       },
       _count: { select: { generations: true } },
     },
@@ -72,7 +72,7 @@ export default async function LibraryPage({
               variant="outline"
               size="sm"
               className={
-                (params.type === t || (!params.type && t === "ALL"))
+                params.type === t || (!params.type && t === "ALL")
                   ? "border-blue-600 text-blue-400 bg-blue-900/20 cursor-pointer"
                   : "border-slate-600 text-slate-400 hover:bg-slate-800 cursor-pointer"
               }
