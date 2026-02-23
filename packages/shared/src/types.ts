@@ -11,6 +11,7 @@ export type ToneType =
 
 export type LengthType = "short" | "medium" | "long";
 
+// ─── Text ────────────────────────────────────────────────────────────────────
 export interface GenerateTextRequest {
   prompt: string;
   contentType: ContentType;
@@ -28,6 +29,79 @@ export interface GenerateTextResponse {
   cost: number;
 }
 
+// ─── Image ───────────────────────────────────────────────────────────────────
+export type ImageSize =
+  | "1024x1024"
+  | "1792x1024"
+  | "1024x1792";
+
+export type ImageQuality = "standard" | "hd";
+export type ImageStyle = "vivid" | "natural";
+
+export interface GenerateImageRequest {
+  prompt: string;
+  size: ImageSize;
+  quality: ImageQuality;
+  style: ImageStyle;
+  projectId?: string;
+}
+
+export interface GenerateImageResponse {
+  generationId: string;
+  contentId: string;
+  imageUrl: string;
+  revisedPrompt: string;
+  cost: number;
+}
+
+// ─── Voice ───────────────────────────────────────────────────────────────────
+export type VoiceId =
+  | "21m00Tcm4TlvDq8ikWAM"   // Rachel — calm, professional
+  | "AZnzlk1XvdvUeBnXmlld"   // Domi — strong, confident
+  | "EXAVITQu4vr4xnSDxMaL"   // Bella — soft, pleasant
+  | "ErXwobaYiN019PkySvjV"   // Antoni — well-rounded
+  | "MF3mGyEYCl7XYWbV9V6O"   // Elli — young, energetic
+  | "TxGEqnHWrfWFTfGW9XjX"   // Josh — deep, warm
+  | "VR6AewLTigWG4xSOukaG"   // Arnold — crisp, authoritative
+  | "pNInz6obpgDQGcFmaJgB";  // Adam — deep, narrative
+
+export interface GenerateVoiceRequest {
+  text: string;
+  voiceId: VoiceId;
+  modelId?: string;
+  projectId?: string;
+}
+
+export interface GenerateVoiceResponse {
+  generationId: string;
+  contentId: string;
+  audioBase64: string;
+  durationSeconds: number;
+  cost: number;
+}
+
+// ─── Video ───────────────────────────────────────────────────────────────────
+export type VideoModel = "gen3a_turbo" | "gen4_turbo";
+export type VideoRatio = "1280:720" | "720:1280" | "1104:832" | "832:1104";
+
+export interface GenerateVideoRequest {
+  prompt: string;
+  model: VideoModel;
+  ratio: VideoRatio;
+  duration: 5 | 10;
+  projectId?: string;
+}
+
+export interface GenerateVideoResponse {
+  generationId: string;
+  contentId: string;
+  taskId: string;
+  status: "pending" | "processing" | "completed" | "failed";
+  videoUrl?: string;
+  cost: number;
+}
+
+// ─── Shared ───────────────────────────────────────────────────────────────────
 export interface DashboardStats {
   totalContent: number;
   totalTokensUsed: number;

@@ -33,9 +33,9 @@ const mainNav = [
 
 const createNav = [
   { href: "/create/text", label: "Text", icon: FileText, active: true },
-  { href: "/create/image", label: "Image", icon: ImageIcon, active: false },
-  { href: "/create/voice", label: "Voice", icon: Mic, active: false },
-  { href: "/create/video", label: "Video", icon: Video, active: false },
+  { href: "/create/image", label: "Image", icon: ImageIcon, active: true },
+  { href: "/create/voice", label: "Voice", icon: Mic, active: true },
+  { href: "/create/video", label: "Video", icon: Video, active: true },
 ];
 
 export function Sidebar() {

@@ -75,7 +75,7 @@ export default function TextGenerationPage() {
     defaultValues: {
       contentType: "POST",
       tone: "professional",
-      length: "medium",
+      length: "long",
     },
   });
 
@@ -216,7 +216,7 @@ export default function TextGenerationPage() {
               <div className="space-y-2">
                 <Label className="text-slate-300">Length</Label>
                 <Select
-                  defaultValue="medium"
+                  defaultValue="long"
                   onValueChange={(v) => form.setValue("length", v as LengthType)}
                 >
                   <SelectTrigger className="bg-slate-800 border-slate-600 text-white">

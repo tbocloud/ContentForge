@@ -64,14 +64,3 @@ Guidelines:
   return { text, tokensUsed, cost };
 }
 
-export async function generateImage(_prompt: string): Promise<never> {
-  throw new Error("Image generation coming soon! Stay tuned.");
-}
-
-export async function generateVoice(_text: string): Promise<never> {
-  throw new Error("Voice generation coming soon! Stay tuned.");
-}
-
-export async function generateVideo(_prompt: string): Promise<never> {
-  throw new Error("Video generation coming soon! Stay tuned.");
-}
